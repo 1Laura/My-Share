@@ -1,9 +1,15 @@
-<?php
-require APPROOT . '\views\includes\head.php';
+<?php require APPROOT . '\views\includes\head.php'; ?>
 
-echo "<h1>{$data['title']}</h1>";
-echo '<p>This is simple MVC core framework. See documentation to know how to use it.</p>';
+<?php echo "<h1>{$data['title']}</h1>"; ?>
 
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-3"><?php echo $data['title'] ?></h1>
+        <p class="lead"><?php echo $data['description'] ?></p>
 
-require APPROOT . '\views\includes\footer.php';
+    </div>
+
+</div>
+
+<?php require APPROOT . '\views\includes\footer.php'; ?>
 
