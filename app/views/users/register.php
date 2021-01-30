@@ -1,9 +1,8 @@
 <?php require APPROOT . '\views\includes\head.php'; ?>
 
-
 <div class="row">
     <div class="col-md-6 mx-auto">
-        <div class="car card-body bg-light mt-5">
+        <div class="card card-body bg-light mt-5">
             <h2>Create an account</h2>
             <p>PLease fill in the form to register with us</p>
             <form action="" method="post">
