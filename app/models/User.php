@@ -13,7 +13,11 @@ class User
 
     // finds user by given email========================================================================================
     //return Boolean
-    public function findUserByEmail($email)
+    /**
+     * @param $email
+     * @return bool
+     */
+    public function findUserByEmail($email): bool
     {
         //check if given email is in database
         // prepare statement/ paruosiam statementa
@@ -31,6 +35,29 @@ class User
         } else {
             return false;
         }
+
+    }
+
+    // register user with given sanitized data==========================================================================
+    // return Boolean
+    public function register($data): bool
+    {
+        //prepare statement
+        $this->db->query("INSERT INTO users (`name`, `email`, `password`) VALUES (:name, :email, :password)");
+
+        //add values//priskirti reiksmes
+        $this->db->bind(':name', $data['name']);
+        $this->db->bind(':email', $data['email']);
+        // hashed password
+        $this->db->bind(':password', $data['password']);
+
+        //make query
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+
 
     }
 }
