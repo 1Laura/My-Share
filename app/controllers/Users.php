@@ -51,6 +51,11 @@ class Users extends Controller
             } else {
                 if (filter_var($data['email'], FILTER_VALIDATE_EMAIL) === false) {
                     $data['emailErr'] = 'Please check Your Email';
+                } else {
+                    // check if email already exists
+                    if ($this->userModel->findUserByEmail($data['email'])) {
+                        $data['emailErr'] = 'Email already taken';
+                    }
                 }
             }
             // Validate password
@@ -71,10 +76,20 @@ class Users extends Controller
             }
 
             //if there is no errors
-
             if (empty($data['nameErr']) && empty($data['emailErr']) && empty($data['passwordErr']) && empty($data['confirmPasswordErr'])) {
                 //there ar no errors
+                //pridejimas i duomenu baze
                 die('SUCCESS');
+
+                //validation ok
+
+
+                //create user
+
+                //hash password
+
+//                $this->userModel->register($data);
+
             } else {
                 //load view with errors
                 $this->view('users/register', $data);
