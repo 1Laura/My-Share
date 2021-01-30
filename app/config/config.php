@@ -1,9 +1,9 @@
 <?php
 //DB params
 define('DB_HOST', 'localhost');
-define('DB_USER', '_YOUR_DB_USER_');
-define('DB_PASS', '_YOUR_DB_PASS_');
-define('DB_NAME', '_YOUR_DB_NAME_');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+define('DB_NAME', 'myshare');
 
 
 //approot wil be used when we need absolute path to our app dir.(kelias iki app folderio)
@@ -16,9 +16,13 @@ define('APPROOT', dirname(dirname(__FILE__)));
 define('URLROOT', 'http://localhost/myshare');
 
 //site name
-define('SITENAME', 'My share');
+define('SITENAME', 'MyShare');
 
 
 //need to change.htaccess in public
 //RewriteBase /__YOUR_SITE_DIR__/public
 //replace __YOUR_SITE_DIR__ with root dir name of your site
+
+
+//Table users
+//CREATE TABLE `myshare` . `users` (`id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(255) NOT NULL , `email` VARCHAR(255) NOT NULL , `password` VARCHAR(255) NOT NULL , `created` DATETIME on update CURRENT_TIMESTAMP NOT NULL default CURRENT_TIMESTAMP , PRIMARY KEY(`id`)) ENGINE = MyISAM;
