@@ -45,7 +45,7 @@ class Database
         }
     }
 
-    // Prepare statements with query
+    // Prepare statements with query====================================================================================
     // dbh->query('SELECT * FROM posts WHERE email=:email)
     public function query($sql)
     {
@@ -53,7 +53,7 @@ class Database
         $this->stmt = $this->dbh->prepare($sql);
     }
 
-    // use stmt->bind(':email', 'jon@nas.com');
+    // use stmt->bind(':email', 'jon@nas.com');=========================================================================
     public function bind($param, $value, $type = null)
     {
         if (is_null($type)) {
@@ -76,14 +76,14 @@ class Database
         $this->stmt->bindValue($param, $value, $type);
     }
 
-    // execute prepared and binded statement
+    // execute prepared and binded statement============================================================================
     // return result
     public function execute()
     {
         return $this->stmt->execute();
     }
 
-    // Get results as an array
+    // Get results as an array==========================================================================================
     //return db result array
     public function resultSet()
     {
@@ -92,7 +92,7 @@ class Database
         return $this->stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
-    // method to return single row of data
+    // method to return single row of data==============================================================================
     public function singleRow()
     {
         $this->execute();
@@ -100,7 +100,7 @@ class Database
         return $this->stmt->fetch(PDO::FETCH_OBJ);
     }
 
-    // method to get back number of rows
+    // method to get back number of rows================================================================================
     public function rowCount()
     {
         return $this->stmt->rowCount();
