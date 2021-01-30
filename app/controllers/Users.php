@@ -79,17 +79,21 @@ class Users extends Controller
             if (empty($data['nameErr']) && empty($data['emailErr']) && empty($data['passwordErr']) && empty($data['confirmPasswordErr'])) {
                 //there ar no errors
                 //pridejimas i duomenu baze
-                die('SUCCESS');
+//                die('SUCCESS');
 
                 //validation ok
 
+                //hash password // save way to store password
+                $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
 
                 //create user
-
-                //hash password
-
-//                $this->userModel->register($data);
-
+                if ($this->userModel->register($data)) {
+                    //success user added
+//                    header("Location: " . URLROOT . "/users/login");
+                    redirect('/users/login');
+                } else {
+                    die('something went wrong in adding user to db');
+                }
             } else {
                 //load view with errors
                 $this->view('users/register', $data);
