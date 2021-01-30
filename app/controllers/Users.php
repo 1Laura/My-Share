@@ -10,8 +10,11 @@
 
 class Users extends Controller
 {
+    private $userModel;
+
     public function __construct()
     {
+        $this->userModel = $this->model('User');
     }
 
     // ================================REGISTER=====================================================
@@ -68,9 +71,9 @@ class Users extends Controller
             }
 
             //if there is no errors
-            if (empty($data['nameErr']) && empty($data['emailErr']) && empty($data['passwordErr']) && empty(['confirmPasswordErr'])) {
+
+            if (empty($data['nameErr']) && empty($data['emailErr']) && empty($data['passwordErr']) && empty($data['confirmPasswordErr'])) {
                 //there ar no errors
-                var_dump('labas');
                 die('SUCCESS');
             } else {
                 //load view with errors
