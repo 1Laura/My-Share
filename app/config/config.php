@@ -18,6 +18,12 @@ define('URLROOT', 'http://localhost/myshare');
 //site name
 define('SITENAME', 'MyShare');
 
+//app version
+define("APPVERSION", "1.0.0");
+
+
+
+
 
 //need to change.htaccess in public
 //RewriteBase /__YOUR_SITE_DIR__/public
