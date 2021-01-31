@@ -128,7 +128,38 @@ class Users extends Controller
         //echo 'Register in progress';
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // form process in progress
+            //sanitize Post Array
+            //isvalo visa inputu masyva, masyvu tipas yra POST, isvalo nuo nereikalingu elementu, nuima tagus
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            //create data
+            $data = [
+                'email' => trim($_POST['email']),
+                'password' => trim($_POST['password']),
+                'emailErr' => '',
+                'passwordErr' => '',
+            ];
+
+            //validate email
+            if (empty($data['email'])) {
+                $data['emailErr'] = 'Please enter Your email';
+            }
+            //validate password
+            if (empty($data['password'])) {
+                $data['passwordErr'] = 'Please enter Your password';
+            }
+
+            //check if we have errors
+            if (empty($data['emailErr']) && empty($data['passwordErr'])) {
+                //no errors
+                die ('success');
+            } else {
+                //load view with errors
+                $this->view('users/login', $data);
+            }
+
+
         } else {
+            //if we go to users/login by url or link or btn
             //load form
 //            echo 'load form';
 
