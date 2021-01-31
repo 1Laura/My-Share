@@ -89,12 +89,16 @@ class Users extends Controller
                 //create user
                 if ($this->userModel->register($data)) {
                     //success user added
+                    //set flash message
+                    flash('registerSuccess', 'You have registered successfully');
 //                    header("Location: " . URLROOT . "/users/login");
                     redirect('/users/login');
                 } else {
                     die('something went wrong in adding user to db');
                 }
             } else {
+                //set flash msg, register fail
+                flash('registerFail', 'Please check the form', 'alert alert-danger');
                 //load view with errors
                 $this->view('users/register', $data);
             }
