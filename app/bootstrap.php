@@ -3,6 +3,7 @@
 require_once "config/config.php";
 
 //load helpers
+require_once "helpers/sessionHelper.php";
 require_once "helpers/urlHelper.php";
 
 ////load core libraries
