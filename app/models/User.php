@@ -57,8 +57,34 @@ class User
         } else {
             return false;
         }
+    }
 
+    // checks in the database for the email and password
+    ////tries to verify passwordlogin user
+    //return row or false
+    public function login($email, $notHashedPass)
+    {
+        //get the row with given email
+        $this->db->query("SELECT * FROM users WHERE `email`= :email");
 
+        $this->db->bind(':email', $email);
+
+        $row = $this->db->singleRow();
+
+        if ($row) {
+            //isssisaugoti slaptazodis is tos eilute kuria gavom
+            //eilute, kurioj stulpelis password - PDO bajeris :)
+            $hashedPassword = $row->password;
+        } else {
+            return false;
+        }
+
+        // check password
+        if (password_verify($notHashedPass, $hashedPassword)) {
+            return $row;
+        } else {
+            return false;
+        }
     }
 }
 
