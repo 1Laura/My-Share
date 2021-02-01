@@ -35,8 +35,20 @@ function flash($name = '', $message = '', $class = 'alert alert-success')
             unset($_SESSION[$name . '_class']);
         }
     }
+}
 
+// check if user is logged in=========================================================
+function isLoggedIn(): bool
+{
+    if (isset($_SESSION['userId'])) return true;
+    return false;
 
+    // zemiau if isplestas(senesnis kelias), virsuje sutrumpintas
+//    if (isset($_SESSION['userId'])) {
+//        return true;
+//    } else {
+//        return false;
+//    }
 }
 
 
