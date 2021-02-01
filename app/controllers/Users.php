@@ -165,7 +165,11 @@ class Users extends Controller
                 if ($loggedInUser) {
                     //create session
                     //password match
-                    die('email and pass match start session immediately');
+                    $this->createUserSession($loggedInUser);
+//                    die('email and pass match start session immediately');
+                    //id, name ir email issisaugoti i sessija kai prisiloginam
+                    //kai turim tuos duomeniss, galesim valdyti visa flowa
+
                 } else {
                     $data['passwordErr'] = 'Wrong password or email';
                     //load view with errors
@@ -194,6 +198,17 @@ class Users extends Controller
             //load view paduodam
             $this->view('users/login', $data);
         }
+
+    }
+
+    // if we have user we save its data is session======================================================================
+    public function createUserSession($userRow)
+    {
+        $_SESSION['userID'] = $userRow->id;
+        $_SESSION['userName'] = $userRow->name;
+        $_SESSION['userEmail'] = $userRow->email;
+
+        redirect('/pages/index');
 
     }
 }
