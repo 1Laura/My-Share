@@ -209,6 +209,17 @@ class Users extends Controller
         $_SESSION['userEmail'] = $userRow->email;
 
         redirect('/pages/index');
+    }
 
+    //=====================LOGOUT=======================================================================================
+    public function logout()
+    {
+        unset($_SESSION['userID']);
+        unset($_SESSION['userName']);
+        unset($_SESSION['userEmail']);
+
+        session_destroy();
+
+        redirect('/users/login');
     }
 }
