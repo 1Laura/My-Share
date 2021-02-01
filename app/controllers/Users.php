@@ -208,7 +208,7 @@ class Users extends Controller
         $_SESSION['userName'] = $userRow->name;
         $_SESSION['userEmail'] = $userRow->email;
 
-        redirect('/pages/index');
+        redirect('/posts');
     }
 
     //=====================LOGOUT=======================================================================================
