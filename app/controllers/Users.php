@@ -204,7 +204,7 @@ class Users extends Controller
     // if we have user we save its data is session======================================================================
     public function createUserSession($userRow)
     {
-        $_SESSION['userID'] = $userRow->id;
+        $_SESSION['userId'] = $userRow->id;
         $_SESSION['userName'] = $userRow->name;
         $_SESSION['userEmail'] = $userRow->email;
 
@@ -214,7 +214,7 @@ class Users extends Controller
     //=====================LOGOUT=======================================================================================
     public function logout()
     {
-        unset($_SESSION['userID']);
+        unset($_SESSION['userId']);
         unset($_SESSION['userName']);
         unset($_SESSION['userEmail']);
 
