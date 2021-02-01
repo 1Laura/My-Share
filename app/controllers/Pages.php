@@ -13,13 +13,17 @@ class Pages extends Controller
     // ======================================INDEX===========================================
     public function index()
     {
+        // if user is logged in we redirect to posts
+        if (isLoggedIn()) redirect('/posts');
         //create some data to load into view
         $data = [
             'title' => 'Welcome to ' . SITENAME,
-            'description'=>'This is an app to share your Thoughts with the World'
+            'description' => 'This is an app to share your Thoughts with the World'
         ];
         //load the view
         $this->view('pages/index', $data);
+
+
     }
 
     // ======================================ABOUT===========================================
@@ -29,7 +33,7 @@ class Pages extends Controller
         //create some data to load into view
         $data = [
             'title' => 'About - ' . SITENAME,
-            'description'=>'App to share news with friends and World'
+            'description' => 'App to share news with friends and World'
         ];
         //load the view
         $this->view('pages/about', $data);
