@@ -26,6 +26,40 @@ class Post
         return $result;
     }
 
+    public function addPost($data)
+    {
+        //prepare statement
+        $this->db->query("INSERT INTO posts (`title`, `body`, `userId`) VALUES (:title, :body, :userId)");
+
+        //add values//priskirti reiksmes
+        $this->db->bind(':title', $data['title']);
+        $this->db->bind(':body', $data['body']);
+        $this->db->bind(':userId', $data['userId']);
+
+        //make query
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // will return post row if found
+    //return false if not found
+    public function getPostById($id)
+    {
+        $this->db->query("SELECT * FROM posts WHERE id=:id");
+        $this->db->bind(':id', $id);
+
+        $row = $this->db->singleRow();
+
+        if ($this->db->rowCount() > 0) {
+            return $row;
+        } else {
+            return false;
+        }
+    }
+
 }
 
 
