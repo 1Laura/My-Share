@@ -118,7 +118,7 @@ class Posts extends Controller
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
             $data = [
-                'userId' => $_SESSION['userId'],
+                'postId' => $id,
                 'title' => trim($_POST['title']),
                 'body' => trim($_POST['body']),
                 'titleErr' => '',
@@ -163,7 +163,7 @@ class Posts extends Controller
 
             //post found and will load view
             $data = [
-                'id'=>$id,
+                'id' => $id,
                 'title' => $post->title,
                 'body' => $post->body,
                 'titleErr' => '',
