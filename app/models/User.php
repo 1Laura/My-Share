@@ -1,6 +1,6 @@
 <?php
 //User class
-//for getting and setting database values
+//for getting and sending database values
 
 class User
 {
