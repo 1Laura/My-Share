@@ -60,6 +60,26 @@ class Post
         }
     }
 
+    //to update one post
+    public function updatePost($data)
+    {
+        //prepare statement
+        $this->db->query("UPDATE posts SET `title`=:title, `body`=:body WHERE id=:postId");
+
+        //add values//priskirti reiksmes
+        $this->db->bind(':title', $data['title']);
+        $this->db->bind(':body', $data['body']);
+        $this->db->bind(':postId', $data['postId']);
+
+        //make query
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
 }
 
 
