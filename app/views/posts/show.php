@@ -2,8 +2,9 @@
 
 <h1>Single page template</h1>
 
+<?php var_dump($data['post']->id) ?>
+<?php var_dump($data['post']) ?>
 
-<?php  echo var_dump($data['postId']) ?>
 
 <?php require APPROOT . '\views\includes\footer.php'; ?>
 

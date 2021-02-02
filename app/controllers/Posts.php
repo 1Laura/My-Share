@@ -87,9 +87,14 @@ class Posts extends Controller
     public function show($id = null)
     {
         if ($id === null) redirect('/posts');
+
+        //get post row
+        $post = $this->postModel->getPostById($id);
+        //create data for the view and add post data
         $data = [
-            'postId' => $id
+            'post' => $post
         ];
+        //load view
         $this->view('posts/show', $data);
 
 
