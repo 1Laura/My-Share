@@ -30,13 +30,68 @@ class Posts extends Controller
 
     public function add()
     {
-        //addt posts
+        //if form was submited
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            //lets validate
+            //issivalom posto masyva
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            $data = [
+                'userId' => $_SESSION['userId'],
+                'title' => trim($_POST['title']),
+                'body' => trim($_POST['body']),
+                'titleErr' => '',
+                'bodyErr' => ''
+            ];
+
+            //validate title
+            if (empty($data['title'])) {
+                $data['titleErr'] = 'Please enter a title';
+            }
+            //validate body
+            if (empty($data['body'])) {
+                $data['bodyErr'] = 'Please enter a text';
+            }
+
+            //check if there are no errors
+            if (empty($data['titleErr']) && empty($data['bodyErr'])) {
+                // there ar no errors
+                // die('no errors, can submit');
+                if ($this->postModel->addPost($data)) {
+                    //post added
+                    flash('postMessage', 'You have added a new post');
+                    redirect('/posts');
+                } else {
+                    die('something went wrong in adding post');
+                }
+
+            } else {
+                //load view with errors
+                $this->view('posts/add', $data);
+            }
+        } else {
+            //else user entered into this page
+            //add posts
+            $data = [
+                'title' => '',
+                'body' => '',
+                'titleErr' => '',
+                'bodyErr' => ''
+            ];
+            $this->view('posts/add', $data);
+        }
+
+    }
+
+    public function show($id = null)
+    {
+        if ($id === null) redirect('/posts');
         $data = [
-            'title' => '',
-            'body' => '',
-            'titleErr' => '',
-            'bodyErr' => ''
+            'postId' => $id
         ];
-        $this->view('posts/add', $data);
+        $this->view('posts/show', $data);
+
+
     }
 }
