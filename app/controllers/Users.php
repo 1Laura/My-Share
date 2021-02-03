@@ -99,6 +99,8 @@ class Users extends Controller
             } else {
                 //set flash msg, register fail
                 flash('registerFail', 'Please check the form', 'alert alert-danger');
+                $data['currentPage'] = 'register';
+
                 //load view with errors
                 $this->view('users/register', $data);
             }
@@ -115,6 +117,7 @@ class Users extends Controller
                 'emailErr' => '',
                 'passwordErr' => '',
                 'confirmPasswordErr' => '',
+                'currentPage' => 'register'
             ];
 
             //load view paduodam
@@ -178,11 +181,10 @@ class Users extends Controller
 
 //                die ('success');
             } else {
+                $data['currentPage'] = 'login';
                 //load view with errors
                 $this->view('users/login', $data);
             }
-
-
         } else {
             //if we go to users/login by url or link or btn
             //load form
@@ -194,7 +196,7 @@ class Users extends Controller
                 'emailErr' => '',
                 'passwordErr' => '',
             ];
-
+            $data['currentPage'] = 'login';
             //load view paduodam
             $this->view('users/login', $data);
         }

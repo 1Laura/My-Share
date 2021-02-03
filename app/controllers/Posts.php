@@ -25,7 +25,8 @@ class Posts extends Controller
         //get posts
         $posts = $this->postModel->getPosts();
         $data = [
-            'posts' => $posts
+            'posts' => $posts,
+            'currentPage' => 'home'
         ];
         $this->view('posts/index', $data);
     }
@@ -79,7 +80,8 @@ class Posts extends Controller
                 'title' => '',
                 'body' => '',
                 'titleErr' => '',
-                'bodyErr' => ''
+                'bodyErr' => '',
+
             ];
             $this->view('posts/add', $data);
         }
@@ -99,7 +101,7 @@ class Posts extends Controller
         //create data for the view and add post data
         $data = [
             'post' => $post,
-            'user' => $user
+            'user' => $user,
         ];
         //load view
         $this->view('posts/show', $data);
@@ -170,6 +172,22 @@ class Posts extends Controller
                 'bodyErr' => ''
             ];
             $this->view('posts/edit', $data);
+        }
+    }
+
+
+    public function delete($id = null)
+    {
+        $vld = new Validation();
+        if ($vld->ifRequestIsPost() && $id) {
+//            die('will be deleting soon');
+            if ($this->postModel->deletePost($id)) {
+                flash('postMessage', 'Post was removed', 'alert alert-warning');
+                redirect('/posts');
+            }
+
+        } else {
+            redirect('/posts');
         }
     }
 

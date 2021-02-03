@@ -19,8 +19,8 @@ class Post
  posts.created AS postCreated, users.created AS userCreated FROM posts INNER JOIN users ON posts.userId = users.id
  ORDER BY posts.created DESC";
         $this->db->query($sql);
-        //resutltatui kvieciame sitos db prisijungima, ir jam kvieciam fetch resultata
 
+        //resutltatui kvieciame sitos db prisijungima, ir jam kvieciam fetch resultata
         $result = $this->db->resultSet();
 
         return $result;
@@ -70,6 +70,22 @@ class Post
         $this->db->bind(':title', $data['title']);
         $this->db->bind(':body', $data['body']);
         $this->db->bind(':postId', $data['postId']);
+
+        //make query
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //to delete one post
+    public function deletePost($id)
+    {
+        //prepare statement
+        $this->db->query("DELETE FROM `posts` WHERE `posts`.`id` =:postId");
+
+        $this->db->bind(':postId', $id);
 
         //make query
         if ($this->db->execute()) {
