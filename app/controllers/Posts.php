@@ -10,6 +10,7 @@ class Posts extends Controller
 {
     private $postModel;
     private $userModel;
+    private $vld;
 
     public function __construct()
     {
@@ -18,6 +19,9 @@ class Posts extends Controller
 
         $this->postModel = $this->model('Post');
         $this->userModel = $this->model('User');
+
+        //init validation class
+        $this->vld = new Validation();
     }
 
     public function index()
@@ -34,11 +38,11 @@ class Posts extends Controller
     public function add()
     {
         //if form was submited
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+//        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($this->vld->ifRequestIsPostAndSanitize()) {
             //lets validate
             //issivalom posto masyva
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+//            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
             $data = [
                 'userId' => $_SESSION['userId'],
@@ -114,10 +118,11 @@ class Posts extends Controller
     {
         if ($id === null) redirect('/posts');
         //lets validate
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+//        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($this->vld->ifRequestIsPostAndSanitize()) {
             //lets validate
             //issivalom posto masyva
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+//            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
             $data = [
                 'postId' => $id,
@@ -179,7 +184,7 @@ class Posts extends Controller
     public function delete($id = null)
     {
         $vld = new Validation();
-        if ($vld->ifRequestIsPost() && $id) {
+        if ($this->vld->ifRequestIsPost() && $id) {
 //            die('will be deleting soon');
             if ($this->postModel->deletePost($id)) {
                 flash('postMessage', 'Post was removed', 'alert alert-warning');
