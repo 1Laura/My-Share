@@ -38,50 +38,52 @@ class Users extends Controller
                 'email' => trim($_POST['email']),
                 'password' => trim($_POST['password']),
                 'confirmPassword' => trim($_POST['confirmPassword']),
-                'nameErr' => '',
-                'emailErr' => '',
-                'passwordErr' => '',
-                'confirmPasswordErr' => '',
+                'errors' => [
+                    'nameErr' => '',
+                    'emailErr' => '',
+                    'passwordErr' => '',
+                    'confirmPasswordErr' => '',
+                ],
             ];
 
             // Validate name
             if (empty($data['name'])) {
                 // empty field
-                $data['nameErr'] = 'Please enter your Name';
+                $data['errors']['nameErr'] = 'Please enter your Name';
             }
             // Validate email
             if (empty($data['email'])) {
                 // empty field
-                $data['emailErr'] = 'Please enter your Email';
+                $data['errors']['emailErr'] = 'Please enter your Email';
             } else {
                 if (filter_var($data['email'], FILTER_VALIDATE_EMAIL) === false) {
-                    $data['emailErr'] = 'Please check Your Email';
+                    $data['errors']['emailErr'] = 'Please check Your Email';
                 } else {
                     // check if email already exists
                     if ($this->userModel->findUserByEmail($data['email'])) {
-                        $data['emailErr'] = 'Email already taken';
+                        $data['errors']['emailErr'] = 'Email already taken';
                     }
                 }
             }
             // Validate password
             if (empty($data['password'])) {
                 // empty field
-                $data['passwordErr'] = 'Please enter your Password';
+                $data['errors']['passwordErr'] = 'Please enter your Password';
             } elseif (strlen($data['password']) < 4) {
-                $data['passwordErr'] = 'Password must be 4 or more characters';
+                $data['errors']['passwordErr'] = 'Password must be 4 or more characters';
             }
             // Validate confirmPassword
             if (empty($data['confirmPassword'])) {
                 // empty field
-                $data['confirmPasswordErr'] = 'Please repeat Password';
+                $data['errors']['confirmPasswordErr'] = 'Please repeat Password';
             } else {
                 if ($data['confirmPassword'] !== $data['password']) {
-                    $data['confirmPasswordErr'] = 'Password must match';
+                    $data['errors']['confirmPasswordErr'] = 'Password must match';
                 }
             }
 
             //if there is no errors
-            if (empty($data['nameErr']) && empty($data['emailErr']) && empty($data['passwordErr']) && empty($data['confirmPasswordErr'])) {
+            if (empty($data['errors']['nameErr']) && empty($data['errors']['emailErr']) && empty($data['errors']['passwordErr']) && empty($data['errors']['confirmPasswordErr'])) {
                 //there ar no errors
                 //pridejimas i duomenu baze
 //                die('SUCCESS');
@@ -118,10 +120,12 @@ class Users extends Controller
                 'email' => '',
                 'password' => '',
                 'confirmPassword' => '',
-                'nameErr' => '',
-                'emailErr' => '',
-                'passwordErr' => '',
-                'confirmPasswordErr' => '',
+                'errors' => [
+                    'nameErr' => '',
+                    'emailErr' => '',
+                    'passwordErr' => '',
+                    'confirmPasswordErr' => '',
+                ],
                 'currentPage' => 'register'
             ];
 
