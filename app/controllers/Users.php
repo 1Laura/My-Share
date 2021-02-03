@@ -11,21 +11,26 @@
 class Users extends Controller
 {
     private $userModel;
+    private $vld;
 
     public function __construct()
     {
         $this->userModel = $this->model('User');
+
+        //init validation class
+        $this->vld = new Validation();
+
     }
 
     // ================================REGISTER=====================================================
     public function register()
     {
         //echo 'Register in progress';
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+//        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($this->vld->ifRequestIsPostAndSanitize()) {
             // form process in progress
-
             //sanitize Post Array
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+//            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
             //create data
             $data = [
@@ -129,11 +134,12 @@ class Users extends Controller
     public function login()
     {
         //echo 'Register in progress';
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+//        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($this->vld->ifRequestIsPostAndSanitize()) {
             // form process in progress
             //sanitize Post Array
             //isvalo visa inputu masyva, masyvu tipas yra POST, isvalo nuo nereikalingu elementu, nuima tagus
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+//            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
             //create data
             $data = [
                 'email' => trim($_POST['email']),
