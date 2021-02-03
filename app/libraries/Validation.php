@@ -11,5 +11,20 @@ class Validation
         return false;
     }
 
+    public function sanitizePost()
+    {
+        // sanitize post array
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+    }
+
+    public function ifRequestIsPostAndSanitize()
+    {
+        if ($this->ifRequestIsPost()) {
+            $this->sanitizePost();
+            return true;
+        }
+        return false;
+    }
+
 
 }
