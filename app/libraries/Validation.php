@@ -3,6 +3,8 @@
 
 class Validation
 {
+    private $password;
+//    private $errors = [];
 
     //checks if server request is post
     public function ifRequestIsPost(): bool
@@ -52,14 +54,17 @@ class Validation
     }
 
     //funkcija be referenco
-    public function ifEmptyUserField($field, $fieldDisplayName): string
+    public function validateName($field): string
     {
         if (empty($field)) {
             // empty field
-
-            return "Please enter your $fieldDisplayName";
+            return "Please enter your Name";
         }
-        return '';//falsy
+        if (!preg_match("/^[a-z ,.'-]+$/i", $field)) {
+            return "Name must only contain Name characters";
+        }
+        //falsy
+        return '';
     }
 
     //email validation
@@ -76,27 +81,58 @@ class Validation
         return '';
     }
 
+    //password validation
     public function validatePassword($passwordField, $min, $max)
     {
         //validate empty
-        if (empty($passwordField)) return "Please enter a Password";
+        if (empty($passwordField)) {
+            return "Please enter a Password";
+        }
+
+        //save password for later
+        $this->password = $passwordField;
 
         //if password lenght is less then min
-        if (strlen($passwordField) < $min) return "Password must be more $min characters length";
+        if (strlen($passwordField) < $min) {
+            return "Password must be more $min characters length";
+        }
 
         //if password lenght is mores then max
-        if (strlen($passwordField) > $max) return "Password must be less $max characters length";
+        if (strlen($passwordField) > $max) {
+            return "Password must be less $max characters length";
+        }
 
         //check password strength
 
-        if (!preg_match("#[0-9]+#", $passwordField)) return "Password must contain at least one number!";
+        if (!preg_match("#[0-9]+#", $passwordField)) {
+            return "Password must contain at least one number!";
+        }
 
+        if (!preg_match("#[a-z]+#", $passwordField)) {
+            return "Password must include at least one letter!";
+        }
 
-        if (!preg_match("#[a-z]+#", $passwordField)) return "Password must include at least one letter!";
-
-        if (!preg_match("#[A-Z]+#", $passwordField)) return "Password must include at least one Capital letter!";
+        if (!preg_match("#[A-Z]+#", $passwordField)) {
+            return "Password must include at least one Capital letter!";
+        }
 
 //        if (!preg_match("#\W+#", $passwordField)) return "Password must include at least one symbol!";
+
+        return '';
+    }
+
+    public function validateConfirmPassword($confirmPassword)
+    {
+        if (empty($confirmPassword)) {
+            return "Please repeat a password";
+        }
+        if (!$this->password) {
+            return "No password saved";
+        }
+
+        if ($confirmPassword !== $this->password) {
+            return "Password must match";
+        }
 
         return '';
     }
