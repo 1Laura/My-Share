@@ -47,15 +47,17 @@ class Users extends Controller
             ];
 
             // Validate name
-            if (empty($data['name'])) {
-                // empty field
-                $data['errors']['nameErr'] = 'Please enter your Name';
-            }
+            // pasirasyti f-ja
+//           $this->vld->ifEmptyUserFieldWithReference($data, 'name', 'Name'));
+            $data['errors']['nameErr'] = $this->vld->ifEmptyUserField($data['name'], 'Name');
+///            if (empty($data['name'])) {
+//                // empty field
+//                $data['errors']['nameErr'] = 'Please enter your Name';
+//            }
+
             // Validate email
-            if (empty($data['email'])) {
-                // empty field
-                $data['errors']['emailErr'] = 'Please enter your Email';
-            } else {
+            $data['errors']['emailErr'] = $this->vld->ifEmptyUserField($data['email'], 'Email');
+            if ($data['errors']['emailErr'] === '') {
                 if (filter_var($data['email'], FILTER_VALIDATE_EMAIL) === false) {
                     $data['errors']['emailErr'] = 'Please check Your Email';
                 } else {
@@ -65,25 +67,42 @@ class Users extends Controller
                     }
                 }
             }
+//            if (empty($data['email'])) {
+//                // empty field
+//                $data['errors']['emailErr'] = 'Please enter your Email';
+//            } else {
+//                if (filter_var($data['email'], FILTER_VALIDATE_EMAIL) === false) {
+//                    $data['errors']['emailErr'] = 'Please check Your Email';
+//                } else {
+//                    // check if email already exists
+//                    if ($this->userModel->findUserByEmail($data['email'])) {
+//                        $data['errors']['emailErr'] = 'Email already taken';
+//                    }
+//                }
+//            }
+
             // Validate password
-            if (empty($data['password'])) {
+            $data['errors']['passwordErr'] = $this->vld->ifEmptyUserField($data['password'], 'Password');
+            if ($data['errors']['passwordErr'] === '') {
                 // empty field
-                $data['errors']['passwordErr'] = 'Please enter your Password';
-            } elseif (strlen($data['password']) < 4) {
-                $data['errors']['passwordErr'] = 'Password must be 4 or more characters';
+                if (strlen($data['password']) < 4) {
+                    $data['errors']['passwordErr'] = 'Password must be 4 or more characters';
+                }
             }
+
+
             // Validate confirmPassword
-            if (empty($data['confirmPassword'])) {
+            $data['errors']['confirmPasswordErr'] = $this->vld->ifEmptyUserField($data['confirmPassword'], 'confirmPassword', 'Please repeat Password');
+            if ($data['errors']['confirmPasswordErr'] === '') {
                 // empty field
-                $data['errors']['confirmPasswordErr'] = 'Please repeat Password';
-            } else {
                 if ($data['confirmPassword'] !== $data['password']) {
                     $data['errors']['confirmPasswordErr'] = 'Password must match';
                 }
             }
 
             //if there is no errors
-            if (empty($data['errors']['nameErr']) && empty($data['errors']['emailErr']) && empty($data['errors']['passwordErr']) && empty($data['errors']['confirmPasswordErr'])) {
+            if ($this->vld->ifEmptyErrorsArray($data['errors'])) {
+//            if (empty($data['errors']['nameErr']) && empty($data['errors']['emailErr']) && empty($data['errors']['passwordErr']) && empty($data['errors']['confirmPasswordErr'])) {
                 //there ar no errors
                 //pridejimas i duomenu baze
 //                die('SUCCESS');
@@ -134,8 +153,10 @@ class Users extends Controller
         }
     }
 
-    // ================================LOGIN========================================================
-    public function login()
+
+// ================================LOGIN========================================================
+    public
+    function login()
     {
         //echo 'Register in progress';
 //        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -213,8 +234,9 @@ class Users extends Controller
 
     }
 
-    // if we have user we save its data is session======================================================================
-    public function createUserSession($userRow)
+// if we have user we save its data is session======================================================================
+    public
+    function createUserSession($userRow)
     {
         $_SESSION['userId'] = $userRow->id;
         $_SESSION['userName'] = $userRow->name;
@@ -223,8 +245,9 @@ class Users extends Controller
         redirect('/posts');
     }
 
-    //=====================LOGOUT=======================================================================================
-    public function logout()
+//=====================LOGOUT=======================================================================================
+    public
+    function logout()
     {
         unset($_SESSION['userId']);
         unset($_SESSION['userName']);
