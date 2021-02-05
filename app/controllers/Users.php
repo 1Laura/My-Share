@@ -54,7 +54,7 @@ class Users extends Controller
             // Validate name
             // pasirasyti f-ja
 //           $this->vld->ifEmptyUserFieldWithReference($data, 'name', 'Name'));
-            $data['errors']['nameErr'] = $this->vld->ifEmptyUserField($data['name'], 'Name');
+            $data['errors']['nameErr'] = $this->vld->validateName($data['name']);
 
             // Validate email
             $data['errors']['emailErr'] = $this->vld->validateEmail($data['email'], $this->userModel);
@@ -62,15 +62,17 @@ class Users extends Controller
             // Validate password, nuo 4 iki 10 simboliu
             $data['errors']['passwordErr'] = $this->vld->validatePassword($data['password'], 4, 10);
 
-
             // Validate confirmPassword
-            $data['errors']['confirmPasswordErr'] = $this->vld->ifEmptyUserField($data['confirmPassword'], 'confirmPassword', 'Please repeat Password');
-            if ($data['errors']['confirmPasswordErr'] === '') {
-                // empty field
-                if ($data['confirmPassword'] !== $data['password']) {
-                    $data['errors']['confirmPasswordErr'] = 'Password must match';
-                }
-            }
+            $data['errors']['confirmPasswordErr'] = $this->vld->validateConfirmPassword($data['confirmPassword']);
+
+//            $data['errors']['confirmPasswordErr'] = $this->vld->ifEmptyUserField($data['confirmPassword'], 'confirmPassword', 'Please repeat Password');
+//            if ($data['errors']['confirmPasswordErr'] === '') {
+//                // empty field
+//                if ($data['confirmPassword'] !== $data['password']) {
+//                    $data['errors']['confirmPasswordErr'] = 'Password must match';
+//                }
+//            }
+
 
             //if there is no errors
             if ($this->vld->ifEmptyErrorsArray($data['errors'])) {
