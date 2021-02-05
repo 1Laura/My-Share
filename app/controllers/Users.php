@@ -11,7 +11,7 @@
 class Users extends Controller
 {
     private $userModel;
-    private $vld;
+    private Validation $vld;
 
     public function __construct()
     {
@@ -20,6 +20,11 @@ class Users extends Controller
         //init validation class
         $this->vld = new Validation();
 
+    }
+
+    public function index()
+    {
+        redirect('/posts');
     }
 
     // ================================REGISTER=====================================================
@@ -50,45 +55,12 @@ class Users extends Controller
             // pasirasyti f-ja
 //           $this->vld->ifEmptyUserFieldWithReference($data, 'name', 'Name'));
             $data['errors']['nameErr'] = $this->vld->ifEmptyUserField($data['name'], 'Name');
-///            if (empty($data['name'])) {
-//                // empty field
-//                $data['errors']['nameErr'] = 'Please enter your Name';
-//            }
 
             // Validate email
-            $data['errors']['emailErr'] = $this->vld->ifEmptyUserField($data['email'], 'Email');
-            if ($data['errors']['emailErr'] === '') {
-                if (filter_var($data['email'], FILTER_VALIDATE_EMAIL) === false) {
-                    $data['errors']['emailErr'] = 'Please check Your Email';
-                } else {
-                    // check if email already exists
-                    if ($this->userModel->findUserByEmail($data['email'])) {
-                        $data['errors']['emailErr'] = 'Email already taken';
-                    }
-                }
-            }
-//            if (empty($data['email'])) {
-//                // empty field
-//                $data['errors']['emailErr'] = 'Please enter your Email';
-//            } else {
-//                if (filter_var($data['email'], FILTER_VALIDATE_EMAIL) === false) {
-//                    $data['errors']['emailErr'] = 'Please check Your Email';
-//                } else {
-//                    // check if email already exists
-//                    if ($this->userModel->findUserByEmail($data['email'])) {
-//                        $data['errors']['emailErr'] = 'Email already taken';
-//                    }
-//                }
-//            }
+            $data['errors']['emailErr'] = $this->vld->validateEmail($data['email'], $this->userModel);
 
-            // Validate password
-            $data['errors']['passwordErr'] = $this->vld->ifEmptyUserField($data['password'], 'Password');
-            if ($data['errors']['passwordErr'] === '') {
-                // empty field
-                if (strlen($data['password']) < 4) {
-                    $data['errors']['passwordErr'] = 'Password must be 4 or more characters';
-                }
-            }
+            // Validate password, nuo 4 iki 10 simboliu
+            $data['errors']['passwordErr'] = $this->vld->validatePassword($data['password'], 4, 10);
 
 
             // Validate confirmPassword
@@ -134,19 +106,15 @@ class Users extends Controller
             //load form
 //            echo 'load form';
 
-            $data = [
-                'name' => '',
+            $data = ['name' => '',
                 'email' => '',
                 'password' => '',
                 'confirmPassword' => '',
-                'errors' => [
-                    'nameErr' => '',
+                'errors' => ['nameErr' => '',
                     'emailErr' => '',
                     'passwordErr' => '',
-                    'confirmPasswordErr' => '',
-                ],
-                'currentPage' => 'register'
-            ];
+                    'confirmPasswordErr' => '',],
+                'currentPage' => 'register'];
 
             //load view paduodam
             $this->view('users/register', $data);
@@ -155,8 +123,7 @@ class Users extends Controller
 
 
 // ================================LOGIN========================================================
-    public
-    function login()
+    public function login()
     {
         //echo 'Register in progress';
 //        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
