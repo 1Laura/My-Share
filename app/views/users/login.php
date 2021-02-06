@@ -11,17 +11,17 @@
                 <div class="form-group">
                     <label for="email">Email: <sup>*</sup></label>
                     <input type="text" name="email" id="email"
-                           class="<?php echo !empty($data['emailErr']) ? 'is-invalid' : ''; ?> form-control form-control-lg"
+                           class="<?php echo !empty($data['errors']['emailErr']) ? 'is-invalid' : ''; ?> form-control form-control-lg"
                            value="<?php echo $data['email']; ?>">
-                    <span class="invalid-feedback"><?php echo $data['emailErr']; ?></span>
+                    <span class="invalid-feedback"><?php echo $data['errors']['emailErr']; ?></span>
                 </div>
 
                 <div class="form-group">
                     <label for="password">Password: <sup>*</sup></label>
                     <input type="password" name="password" id="password"
-                           class="<?php echo !empty($data['passwordErr']) ? 'is-invalid' : ''; ?> form-control form-control-lg"
+                           class="<?php echo !empty($data['errors']['passwordErr']) ? 'is-invalid' : ''; ?> form-control form-control-lg"
                            value="<?php echo $data['password']; ?>">
-                    <span class="invalid-feedback"><?php echo $data['passwordErr']; ?></span>
+                    <span class="invalid-feedback"><?php echo $data['errors']['passwordErr']; ?></span>
                 </div>
 
                 <div class="row mt-3">
