@@ -53,6 +53,17 @@ class Validation
 
     }
 
+
+    public function validateEmpty($field, $msg)
+    {
+//        return empty($field) ? $msg : '';
+        if (empty($field)) {
+            return $msg;
+        }
+        return '';
+    }
+
+
     //funkcija be referenco
     public function validateName($field): string
     {
@@ -136,4 +147,24 @@ class Validation
 
         return '';
     }
+
+    //LOGIN VALIDATE
+    public function validateLoginEmail($field, &$userModel)
+    {
+        //validate empty
+        if (empty($field)) return "Please enter Your Email";
+
+        //check email format
+        if (filter_var($field, FILTER_VALIDATE_EMAIL) === false) {
+            return 'Please check Your Email';
+        }
+
+        // if email already exists
+        if (!$userModel->findUserByEmail($field)) {
+            return 'Email not found';
+        }
+        return '';
+    }
+
+
 }
