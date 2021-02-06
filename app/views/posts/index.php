@@ -33,7 +33,7 @@
 </div>
 
 
-<?php var_dump($data['posts']); ?>
+<?php //var_dump($data['posts']); ?>
 
 
 <?php require APPROOT . '\views\includes\footer.php'; ?>
