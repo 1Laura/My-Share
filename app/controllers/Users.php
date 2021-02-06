@@ -138,29 +138,26 @@ class Users extends Controller
             $data = [
                 'email' => trim($_POST['email']),
                 'password' => trim($_POST['password']),
-                'emailErr' => '',
-                'passwordErr' => '',
+                'errors' => [
+                    'emailErr' => '',
+                    'passwordErr' => '',
+                ],
             ];
 
             //validate email
-            if (empty($data['email'])) {
-                $data['emailErr'] = 'Please enter Your email';
-            } else {
-                //check if we have this email in our users table in db
-                if ($this->userModel->findUserByEmail($data['email'])) {
-                    //user found
-                } else {
-                    //user email not found
-                    $data['emailErr'] = 'User does not exist';
-                }
-            }
-            //validate password
-            if (empty($data['password'])) {
-                $data['passwordErr'] = 'Please enter Your password';
-            }
 
-            //check if we have errors
-            if (empty($data['emailErr']) && empty($data['passwordErr'])) {
+            $data['errors']['emailErr'] = $this->vld->validateLoginEmail($data['email'], $this->userModel);
+
+            //validate password
+            $data['errors']['passwordErr'] = $this->vld->validateEmpty($data['password'], 'Please enter your password');
+
+
+//            if (empty($data['password'])) {
+//                $data['passwordErr'] = 'Please enter Your password';
+//            }
+
+            if ($this->vld->ifEmptyErrorsArray($data['errors'])) {
+                //check if we have errors
                 //no errors
                 //email was found and password was entered
                 $loggedInUser = $this->userModel->login($data['email'], $data['password']);
@@ -172,13 +169,11 @@ class Users extends Controller
 //                    die('email and pass match start session immediately');
                     //id, name ir email issisaugoti i sessija kai prisiloginam
                     //kai turim tuos duomeniss, galesim valdyti visa flowa
-
                 } else {
-                    $data['passwordErr'] = 'Wrong password or email';
+                    $data['errors']['passwordErr'] = 'Wrong password or email';
                     //load view with errors
                     $this->view('users/login', $data);
                 }
-
 //                die ('success');
             } else {
                 $data['currentPage'] = 'login';
@@ -189,12 +184,13 @@ class Users extends Controller
             //if we go to users/login by url or link or btn
             //load form
 //            echo 'load form';
-
             $data = [
                 'email' => '',
                 'password' => '',
-                'emailErr' => '',
-                'passwordErr' => '',
+                'errors' => [
+                    'emailErr' => '',
+                    'passwordErr' => '',
+                ],
             ];
             $data['currentPage'] = 'login';
             //load view paduodam
@@ -202,6 +198,7 @@ class Users extends Controller
         }
 
     }
+
 
 // if we have user we save its data is session======================================================================
     public
