@@ -19,6 +19,29 @@
         <button type="submit" class="btn btn-danger"><i class="fa fa-close"></i> DELETE</button>
     </form>
 <?php endif; ?>
+
+<?php if (isset($data['commentsOn'])): ?>
+
+    <hr class="mt-5 mb-4">
+    <div class="row mb-5">
+        <div class="col">
+            <h2>Comments</h2>
+            <div id="comments" class="comment-container">
+                <div class="card">
+                    <div class="card-header">Author <span>When</span></div>
+                    <div class="card-body">
+                        comment text
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<?php endif; ?>
+
+
+
 <?php
 //var_dump($data['post']);
 //var_dump($data['user']);
