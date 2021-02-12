@@ -4,9 +4,10 @@
 class Validation
 {
     private $password;
-//    private $errors = [];
+    //    private $errors = [];
 
     //checks if server request is post
+
     public function ifRequestIsPost(): bool
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') return true;
@@ -28,9 +29,10 @@ class Validation
         return false;
     }
 
+
     public function ifEmptyErrorsArray($errorsArr)
     {
-//       (empty($data['errors']['nameErr']) && empty($data['errors']['emailErr']) && empty($data['errors']['passwordErr']) && empty($data['errors']['confirmPasswordErr']))
+        //       (empty($data['errors']['nameErr']) && empty($data['errors']['emailErr']) && empty($data['errors']['passwordErr']) && empty($data['errors']['confirmPasswordErr']))
         //foreach
         // check if all values of array is empty`1
         foreach ($errorsArr as $error) {
@@ -43,6 +45,15 @@ class Validation
 
     // dvi funkcijos kaip galima pasitikrinti
     //funkcija su referencu
+
+    /**
+     * Validate empty field
+     *
+     * @param array $data
+     * @param string $field
+     * @param string $fieldDisplayName
+     * @return void
+     */
     public function ifEmptyUserFieldWithReference(&$data, $field, $fieldDisplayName)
     {
         $fieldError = $field . "Err";
@@ -50,13 +61,11 @@ class Validation
             // empty field
             $data['errors'][$fieldError] = "Please enter your $fieldDisplayName";
         }
-
     }
-
 
     public function validateEmpty($field, $msg)
     {
-//        return empty($field) ? $msg : '';
+        //        return empty($field) ? $msg : '';
         if (empty($field)) {
             return $msg;
         }
@@ -127,7 +136,7 @@ class Validation
             return "Password must include at least one Capital letter!";
         }
 
-//        if (!preg_match("#\W+#", $passwordField)) return "Password must include at least one symbol!";
+        //        if (!preg_match("#\W+#", $passwordField)) return "Password must include at least one symbol!";
 
         return '';
     }
@@ -165,6 +174,4 @@ class Validation
         }
         return '';
     }
-
-
 }

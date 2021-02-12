@@ -55,19 +55,29 @@
 
     function handleInput(event) {
         const inputValue = event.target.value;
+        const inputName = event.target.name;
+        const inputData = new FormData();
+        inputData.append(inputName, inputValue);
+
         // get value and send it for validation
-        sendAjaxPost(url, data)
-
+        // console.log('<?php echo URLROOT ?>/api/validate');
+        sendAjaxPost('<?php echo URLROOT ?>/api/validate/' + inputName, inputData)
     }
-
-    function sendAjaxPost(url, data) {
-
-    }
-
-
-
 
     //send hhtp post request to api
+    function sendAjaxPost(url, myFormData) {
+        fetch(url, {
+            method: 'post',
+            body: myFormData
+        }).then(response => response.text()).then(data => {
+            console.log(data);
+        }).catch(err => console.error(err));
+    }
+
+
+
+
+
 
 
     // inputo name dalis
