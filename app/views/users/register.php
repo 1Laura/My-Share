@@ -46,7 +46,31 @@
 </div>
 
 <script>
-console.log('labas');
+    console.log('labas');
+    // add elements to js 
+    const nameEl = document.getElementById('name');
+
+    //add event listener "blur
+    nameEl.addEventListener('blur', handleInput);
+
+    function handleInput(event) {
+        const inputValue = event.target.value;
+        // get value and send it for validation
+        sendAjaxPost(url, data)
+
+    }
+
+    function sendAjaxPost(url, data) {
+
+    }
+
+
+
+
+    //send hhtp post request to api
+
+
+    // inputo name dalis
 </script>
 
 
